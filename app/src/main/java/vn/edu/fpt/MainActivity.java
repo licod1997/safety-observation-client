@@ -1,5 +1,6 @@
 package vn.edu.fpt;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,10 +16,10 @@ import vn.edu.fpt.app_interface.DemoAPI;
 import vn.edu.fpt.model.DemoDTO;
 import vn.edu.fpt.network.RetrofitInstance;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private TextView txtResponse;
-    private Button btnLogin;
+    private Button btnLogin,btnFeedback;
     private EditText edtUsername, edtPassword;
 
     @Override
@@ -30,13 +31,11 @@ public class MainActivity extends AppCompatActivity {
         edtUsername = (EditText) findViewById( R.id.edtUsername );
         edtPassword = (EditText) findViewById( R.id.edtPassword );
         btnLogin = (Button) findViewById( R.id.btnLogin );
+        btnFeedback = (Button)findViewById(R.id.btnFeedback);
 
-        btnLogin.setOnClickListener( new Button.OnClickListener() {
-            @Override
-            public void onClick( View v ) {
-                login();
-            }
-        } );
+
+        btnLogin.setOnClickListener(this);
+        btnFeedback.setOnClickListener(this);
     }
 
     private void login() {
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         DemoAPI service = RetrofitInstance.getRetrofitInstance().create( DemoAPI.class );
         Call<Boolean> call = service.login( demoDTO );
 
-        Log.wtf( "URL Called", call.request().url() + "" );
+//        Log.wtf( "URL Called", call.request().url() + "" );
 
         call.enqueue( new Callback<Boolean>() {
             @Override
@@ -63,5 +62,18 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText( MainActivity.this, "Something went wrong...Error message: " + t.getMessage(), Toast.LENGTH_SHORT ).show();
             }
         } );
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btnLogin:
+                login();
+                break;
+            case R.id.btnFeedback:
+                Intent intent = new Intent(this, SendFeedbackActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }
