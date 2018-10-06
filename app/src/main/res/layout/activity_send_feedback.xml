@@ -25,11 +25,22 @@
             android:gravity="center"
             android:padding="10dp" />
 
-        <Button
-            android:id="@+id/btnChooseImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Choose Image" />
+       <LinearLayout
+           android:orientation="horizontal"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <Button
+               android:id="@+id/btnChooseImage"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Choose Image" />
+           <Button
+               android:id="@+id/btnCamera"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="From Camera" />
+
+       </LinearLayout>
 
 
     </LinearLayout>

@@ -43,7 +43,7 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
     private static final String PHOTOS_KEY = "feedback_photos_list";
 
 
-    private Button btnChooseImage, btnSendFeedback;
+    private Button btnChooseImage, btnSendFeedback, btnCamera;
 
     private EditText edtFeedbackDescription;
     private ImagesAdapter imagesAdapter;
@@ -77,6 +77,10 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
         btnChooseImage = findViewById(R.id.btnChooseImage);
         btnSendFeedback = findViewById(R.id.btnSendFeedback);
 
+        btnCamera = (Button) findViewById(R.id.btnCamera);
+        btnCamera.setOnClickListener(this);
+
+
         btnChooseImage.setOnClickListener(this);
         btnSendFeedback.setOnClickListener(this);
 
@@ -93,6 +97,9 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.btnSendFeedback:
                 sendFeedback();
+                break;
+            case R.id.btnCamera:
+                EasyImage.openCamera(SendFeedbackActivity.this,0);
                 break;
         }
     }
@@ -113,14 +120,8 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
 
             @Override
             public void onImagesPicked(List<File> imagesFiles, EasyImage.ImageSource source, int type) {
-                //Handle the images
-//
-                if(imagesFiles.size()<4){
-                    Toast.makeText(SendFeedbackActivity.this,"Chọn ít nhất 4 hình",Toast.LENGTH_LONG).show();
-                }else{
-                    onPhotosReturned(imagesFiles);
+                onPhotosReturned(imagesFiles);
 
-                }
 
             }
         });
@@ -128,6 +129,10 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
 
 
     private void sendFeedback(){
+        if(listImageSelected.size()<4){
+            Toast.makeText(SendFeedbackActivity.this,"Chọn ít nhất 4 hình",Toast.LENGTH_LONG).show();
+            return;
+        }
         pd = new ProgressDialog(SendFeedbackActivity.this); // API <26
         pd.setMessage("Sending Feedback");
         pd.show();
