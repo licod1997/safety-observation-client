@@ -1,9 +1,12 @@
 package vn.edu.fpt;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.Serializable;
 import java.sql.Array;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -36,9 +40,18 @@ import vn.edu.fpt.network.RetrofitInstance;
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class SendFeedbackActivity extends AppCompatActivity implements View.OnClickListener{
+    private static final String PHOTOS_KEY = "feedback_photos_list";
+
+
     private Button btnChooseImage, btnSendFeedback;
-    private ImageView imageView1,imageView2,imageView3,imageView4;
+
     private EditText edtFeedbackDescription;
+    private ImagesAdapter imagesAdapter;
+    protected RecyclerView recyclerView;
+
+
+    ProgressDialog pd ;
+
 
     private List<File> listImageSelected = new ArrayList<>();
 
@@ -46,11 +59,18 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_feedback);
+        recyclerView = findViewById(R.id.recycler_view);
+        if (savedInstanceState != null) {
+            listImageSelected = (ArrayList<File>) savedInstanceState.getSerializable(PHOTOS_KEY);
+        }
 
-        imageView1 =findViewById(R.id.imageView1);
-        imageView2 =findViewById(R.id.imageView2);
-        imageView3 =findViewById(R.id.imageView3);
-        imageView4 =findViewById(R.id.imageView4);
+        imagesAdapter = new ImagesAdapter(SendFeedbackActivity.this, listImageSelected);
+        recyclerView.setLayoutManager(new LinearLayoutManager(SendFeedbackActivity.this));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(imagesAdapter);
+
+
+
 
         edtFeedbackDescription = findViewById(R.id.edtFeedbackDescription);
 
@@ -94,19 +114,12 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onImagesPicked(List<File> imagesFiles, EasyImage.ImageSource source, int type) {
                 //Handle the images
-                if(imagesFiles.size()!=4){
-                    Toast.makeText(SendFeedbackActivity.this,"Chọn 4 hình",Toast.LENGTH_LONG).show();
+//
+                if(imagesFiles.size()<4){
+                    Toast.makeText(SendFeedbackActivity.this,"Chọn ít nhất 4 hình",Toast.LENGTH_LONG).show();
                 }else{
+                    onPhotosReturned(imagesFiles);
 
-                    imageView1.setImageBitmap(BitmapFactory.decodeFile(imagesFiles.get(0).getAbsolutePath()));
-                    imageView2.setImageBitmap(BitmapFactory.decodeFile(imagesFiles.get(1).getAbsolutePath()));
-                    imageView3.setImageBitmap(BitmapFactory.decodeFile(imagesFiles.get(2).getAbsolutePath()));
-                    imageView4.setImageBitmap(BitmapFactory.decodeFile(imagesFiles.get(3).getAbsolutePath()));
-
-                    for (File fileImage :
-                            imagesFiles) {
-                        listImageSelected.add(fileImage);
-                    }
                 }
 
             }
@@ -115,16 +128,15 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
 
 
     private void sendFeedback(){
-        FeedbackPhotoDTO[] listFeedbackPhotoDTO = new FeedbackPhotoDTO[4];
-        int i =0;
-        for (File fileImage: listImageSelected) {
-            uploadImage(fileImage);        //UploadFile -> maybe return Boolean
+        pd = new ProgressDialog(SendFeedbackActivity.this); // API <26
+        pd.setMessage("Sending Feedback");
+        pd.show();
+        FeedbackPhotoDTO[] listFeedbackPhotoDTO = new FeedbackPhotoDTO[listImageSelected.size()];
 
+        for (int i= 0 ; i <listImageSelected.size(); i++) {
             FeedbackPhotoDTO feedbackPhotoDTO = new FeedbackPhotoDTO();
-            feedbackPhotoDTO.setPhotoName(fileImage.getName());
-            feedbackPhotoDTO.setPhotoDirectory("upload");
+            feedbackPhotoDTO.setPhotoName(listImageSelected.get(i).getName());
             listFeedbackPhotoDTO[i]= feedbackPhotoDTO;
-            i++;
         }
 
 
@@ -135,6 +147,7 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
 
         SendFeedbackAPI serviceFeedbackAPI = RetrofitInstance.getRetrofitInstance().create(SendFeedbackAPI.class);
         Call<String> call = serviceFeedbackAPI.sendFeedback(feedbackDTO);
+        System.out.println(call);
 
 ////        Log.wtf("URL Called", .request().url() + "" );
 
@@ -143,12 +156,15 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Toast.makeText(SendFeedbackActivity.this,"Successfully",Toast.LENGTH_LONG).show();
-                //clear
-                imageView1.setImageResource(R.drawable.ic_launcher_background);
-                imageView2.setImageResource(R.drawable.ic_launcher_background);
-                imageView3.setImageResource(R.drawable.ic_launcher_background);
-                imageView4.setImageResource(R.drawable.ic_launcher_background);
+
+                //upload file
+                for (File img: listImageSelected) {
+                    uploadImage(img);
+                }
+                pd.dismiss();
+
+                Toast.makeText(SendFeedbackActivity.this,"Send feedback successfully",Toast.LENGTH_LONG).show();
+//
                 edtFeedbackDescription.setText("");
                 listImageSelected.clear();
 
@@ -156,8 +172,9 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
             }
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+                pd.dismiss();
 
-                Toast.makeText(SendFeedbackActivity.this,"Failed",Toast.LENGTH_LONG).show();
+                Toast.makeText(SendFeedbackActivity.this,"Send Failed",Toast.LENGTH_LONG).show();
 
                 Log.e("main", "on error is called and the error is  ----> " + t.getMessage());
             }
@@ -189,5 +206,17 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(PHOTOS_KEY, (Serializable) listImageSelected);
+    }
+
+    private void onPhotosReturned(List<File> returnedPhotos) {
+        listImageSelected.addAll(returnedPhotos);
+        imagesAdapter.notifyDataSetChanged();
+        recyclerView.scrollToPosition(listImageSelected.size() - 1);
     }
 }

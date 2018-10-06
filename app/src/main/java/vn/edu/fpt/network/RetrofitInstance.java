@@ -9,7 +9,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitInstance {
 
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://192.168.1.101:8080";
+    private static final String COFFEE_HOUSE_URL = "http://10.240.10.126:8080";
+
+    private static final String BASE_HOME_URL = "http://192.168.1.109:8080";
+
+    private static final String BASE_SCHOOL_URL = "http://10.82.135.137:8080";
 
 
 
@@ -25,7 +29,7 @@ public class RetrofitInstance {
 
         if (retrofit == null) {
             retrofit = new retrofit2.Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(COFFEE_HOUSE_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }

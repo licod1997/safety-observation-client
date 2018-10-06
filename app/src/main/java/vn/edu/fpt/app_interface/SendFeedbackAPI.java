@@ -11,7 +11,6 @@ public interface SendFeedbackAPI {
     @Headers( "Content-Type: application/json" )
     Call<String> sendFeedback(@Body FeedbackDTO feedbackDTO );
 
-
 }
 
 
