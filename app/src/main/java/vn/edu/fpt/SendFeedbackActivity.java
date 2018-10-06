@@ -164,9 +164,10 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
                 pd.dismiss();
 
                 Toast.makeText(SendFeedbackActivity.this,"Send feedback successfully",Toast.LENGTH_LONG).show();
-//
+                //Clear
                 edtFeedbackDescription.setText("");
                 listImageSelected.clear();
+                onPhotosReturned(listImageSelected);
 
 
             }
