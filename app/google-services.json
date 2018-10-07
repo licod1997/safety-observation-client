@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "436258995920",
+    "firebase_url": "https://capstoneproject-33e6e.firebaseio.com",
+    "project_id": "capstoneproject-33e6e",
+    "storage_bucket": "capstoneproject-33e6e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436258995920:android:649306229af4221d",
+        "android_client_info": {
+          "package_name": "vn.edu.fpt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "436258995920-uo8o7eujitugjnjk9ikrpniqqcvevo7l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU8hoeGeLuCjls9HO_J3GvQq2ie6qDQKk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
