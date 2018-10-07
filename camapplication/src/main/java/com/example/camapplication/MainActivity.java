@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             int rotation = getWindowManager().getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION,ORIENTATIONS.get(rotation));
 
-            Bitmap bitmap = textureView.getBitmap(640,8490);
+            Bitmap bitmap = textureView.getBitmap(width,height);
             Log.e("Anhntt", bitmap.toString());
             sendImage(bitmap);
 
