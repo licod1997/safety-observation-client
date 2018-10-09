@@ -9,10 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.*;
 
 import java.io.File;
 import java.io.Serializable;
@@ -43,7 +40,10 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
     private static final String PHOTOS_KEY = "feedback_photos_list";
 
 
-    private Button btnChooseImage, btnSendFeedback, btnCamera;
+    private Button btnSendFeedback,btnChooseImage ,btnCamera;
+    private ImageButton imgButtonChoosePhoto, imgButtonCamera;
+    private LinearLayout lnLayoutImageView;
+//    private ImageButton ;
 
     private EditText edtFeedbackDescription;
     private ImagesAdapter imagesAdapter;
@@ -59,7 +59,21 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_feedback);
+
+
+
+
+        imgButtonCamera = findViewById(R.id.imgButtonCamera);
+        imgButtonChoosePhoto = findViewById(R.id.imgButtonChooseImage);
+        lnLayoutImageView = findViewById(R.id.lnlayoutImageView) ;
+        lnLayoutImageView.setVisibility(View.GONE);
+        edtFeedbackDescription = findViewById(R.id.edtFeedbackDescription);
+//        btnChooseImage = findViewById(R.id.btnChooseImage);
+        btnSendFeedback = findViewById(R.id.btnSendFeedback);
         recyclerView = findViewById(R.id.recycler_view);
+//        btnCamera =  findViewById(R.id.btnCamera);
+
+
         if (savedInstanceState != null) {
             listImageSelected = (ArrayList<File>) savedInstanceState.getSerializable(PHOTOS_KEY);
         }
@@ -69,19 +83,8 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(imagesAdapter);
 
-
-
-
-        edtFeedbackDescription = findViewById(R.id.edtFeedbackDescription);
-
-        btnChooseImage = findViewById(R.id.btnChooseImage);
-        btnSendFeedback = findViewById(R.id.btnSendFeedback);
-
-        btnCamera = (Button) findViewById(R.id.btnCamera);
-        btnCamera.setOnClickListener(this);
-
-
-        btnChooseImage.setOnClickListener(this);
+       imgButtonChoosePhoto.setOnClickListener(this);
+       imgButtonCamera.setOnClickListener(this);
         btnSendFeedback.setOnClickListener(this);
 
 
@@ -92,14 +95,18 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
         EasyImage.configuration(getApplication()).setAllowMultiplePickInGallery(true);
 
         switch (view.getId()){
-            case R.id.btnChooseImage:
+            case R.id.imgButtonChooseImage:
                 EasyImage.openGallery(SendFeedbackActivity.this, 0);
+                lnLayoutImageView.setVisibility(View.VISIBLE);
+
                 break;
             case R.id.btnSendFeedback:
                 sendFeedback();
+
                 break;
-            case R.id.btnCamera:
+            case R.id.imgButtonCamera:
                 EasyImage.openCamera(SendFeedbackActivity.this,0);
+                lnLayoutImageView.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -152,7 +159,6 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
 
         SendFeedbackAPI serviceFeedbackAPI = RetrofitInstance.getRetrofitInstance().create(SendFeedbackAPI.class);
         Call<String> call = serviceFeedbackAPI.sendFeedback(feedbackDTO);
-        System.out.println(call);
 
 ////        Log.wtf("URL Called", .request().url() + "" );
 
@@ -170,6 +176,7 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
 
                 Toast.makeText(SendFeedbackActivity.this,"Send feedback successfully",Toast.LENGTH_LONG).show();
                 //Clear
+                lnLayoutImageView.setVisibility(View.GONE);
                 edtFeedbackDescription.setText("");
                 listImageSelected.clear();
                 onPhotosReturned(listImageSelected);

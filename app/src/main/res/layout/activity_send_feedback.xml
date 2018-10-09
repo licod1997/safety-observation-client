@@ -1,74 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="vn.edu.fpt.SendFeedbackActivity"
-    android:weightSum="3">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context="vn.edu.fpt.SendFeedbackActivity"
+              android:weightSum="3">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_weight="3"
-        android:orientation="vertical"
+    <LinearLayout android:id="@+id/lnlayoutImageView"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_weight="3"
+            android:orientation="vertical"
 
-        android:padding="10dp">
+            android:padding="10dp" android:visibility="visible">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@android:color/darker_gray"
-            android:gravity="center"
-            android:padding="10dp" />
-
-       <LinearLayout
-           android:orientation="horizontal"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content">
-           <Button
-               android:id="@+id/btnChooseImage"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="Choose Image" />
-           <Button
-               android:id="@+id/btnCamera"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="From Camera" />
-
-       </LinearLayout>
-
-
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@android:color/background_light"
+                android:gravity="center"
+                android:padding="10dp" android:visibility="visible"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:padding="10dp">
 
-        <TextView
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mô tả chi tiết"
-            android:textSize="20dp" />
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <ImageButton android:layout_width="50dp"
+                         android:layout_height="50dp"
+                         android:id="@+id/imgButtonChooseImage"
+                         android:src="@drawable/photos"
+                         android:scaleType="fitCenter"/>
+            <ImageButton android:layout_width="50dp"
+                         android:layout_height="50dp"
+                         android:id="@+id/imgButtonCamera"
+                         android:src="@drawable/camera"
+                         android:scaleType="fitCenter"/>
+        </LinearLayout>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mô tả chi tiết"
+                android:textSize="20dp"/>
 
         <EditText
-            android:id="@+id/edtFeedbackDescription"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:hint="Nhận xét của bạn" />
+                android:id="@+id/edtFeedbackDescription"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:hint="Nhận xét của bạn"/>
 
         <Button
-            android:id="@+id/btnSendFeedback"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Send Feedback" />
+                android:id="@+id/btnSendFeedback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gữi phản hồi"
+                style="@style/Widget.AppCompat.Button.Colored"/>
 
     </LinearLayout>
 
