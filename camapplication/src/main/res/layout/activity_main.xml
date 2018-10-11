@@ -10,7 +10,15 @@
    <TextureView
            android:id="@+id/textureViewCamera"
            android:layout_width="match_parent"
-           android:layout_height="match_parent"
+           android:layout_height="450dp"
+           android:layout_above="@+id/btnNoti"
    />
+
+   <Button
+           android:layout_below="@+id/textureViewCamera"
+           android:text="Notification"
+           android:id="@+id/btnNoti"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"/>
 
 </RelativeLayout>

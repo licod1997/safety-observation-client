@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,6 +40,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnLogin.setOnClickListener(this);
         btnFeedback.setOnClickListener(this);
+
+        String tkn = FirebaseInstanceId.getInstance().getToken();
+        Log.d("AnhNTT","Token ["+tkn+"]");
     }
 
     private void login() {

@@ -39,6 +39,7 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity{
 
     private TextureView textureView;
+    private Button btn;
     private final Object lock = new Object();
     private boolean runAutoSendImage = false;
     private static final int MAX_PREVIEW_WIDTH = 1920;
@@ -176,6 +177,13 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         textureView = (TextureView) findViewById(R.id.textureViewCamera);
+        btn = (Button) findViewById(R.id.btnNoti);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Notification().execute();
+            }
+        });
 
         startBackgroundThread();
     }

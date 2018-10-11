@@ -36,6 +36,50 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:21276642653:android:7d25703ee7c807ac",
+        "android_client_info": {
+          "package_name": "vn.edu.fpt.client"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "21276642653-obqr34f0oran0nnbq1o94980d0n7mhb4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.edu.fpt.client",
+            "certificate_hash": "957d9c276595746c8117a77d4cdf19c6a6986ef9"
+          }
+        },
+        {
+          "client_id": "21276642653-3au6q6q5l10hnb9ues4a9td1hj5l25i1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABcT7ya0DdwC3TIWgSe3ec3i0TZJ30uNk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "21276642653-3au6q6q5l10hnb9ues4a9td1hj5l25i1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"
