@@ -470,6 +470,7 @@ public class MainActivity extends AppCompatActivity{
             return;
         }
         Bitmap bitmapImage = textureView.getBitmap(previewSize.getHeight(),previewSize.getWidth());
+        Log.e("AnhNTT",getBitMap(bitmapImage));
         SendImageAPI service = RetrofitClientInstance.getRetrofitInstanc().create( SendImageAPI.class );
 
         Call<String> callUpload = service.uploadImage(getBitMap(bitmapImage));
