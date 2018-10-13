@@ -37,13 +37,11 @@ import vn.edu.fpt.network.RetrofitInstance;
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class SendFeedbackActivity extends AppCompatActivity implements View.OnClickListener{
-    private static final String PHOTOS_KEY = "feedback_photos_list";
 
 
     private Button btnSendFeedback,btnChooseImage ,btnCamera;
     private ImageButton imgButtonChoosePhoto, imgButtonCamera;
     private LinearLayout lnLayoutImageView;
-//    private ImageButton ;
 
     private EditText edtFeedbackDescription;
     private ImagesAdapter imagesAdapter;
@@ -68,15 +66,11 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
         lnLayoutImageView = findViewById(R.id.lnlayoutImageView) ;
         lnLayoutImageView.setVisibility(View.GONE);
         edtFeedbackDescription = findViewById(R.id.edtFeedbackDescription);
-//        btnChooseImage = findViewById(R.id.btnChooseImage);
         btnSendFeedback = findViewById(R.id.btnSendFeedback);
         recyclerView = findViewById(R.id.recycler_view);
-//        btnCamera =  findViewById(R.id.btnCamera);
 
 
-        if (savedInstanceState != null) {
-            listImageSelected = (ArrayList<File>) savedInstanceState.getSerializable(PHOTOS_KEY);
-        }
+
 
         imagesAdapter = new ImagesAdapter(SendFeedbackActivity.this, listImageSelected);
         recyclerView.setLayoutManager(new LinearLayoutManager(SendFeedbackActivity.this));
@@ -96,6 +90,7 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
 
         switch (view.getId()){
             case R.id.imgButtonChooseImage:
+                listImageSelected.clear();
                 EasyImage.openGallery(SendFeedbackActivity.this, 0);
                 lnLayoutImageView.setVisibility(View.VISIBLE);
 
@@ -181,6 +176,9 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
                 listImageSelected.clear();
                 onPhotosReturned(listImageSelected);
 
+                finish();
+
+
 
             }
             @Override
@@ -190,6 +188,7 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
                 Toast.makeText(SendFeedbackActivity.this,"Send Failed",Toast.LENGTH_LONG).show();
 
                 Log.e("main", "on error is called and the error is  ----> " + t.getMessage());
+
             }
         });
 
@@ -209,7 +208,6 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 System.out.println("Upload file is successfully");
-                System.out.println(fileImage.getName()+"");
             }
 
             @Override
@@ -221,11 +219,7 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
 
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable(PHOTOS_KEY, (Serializable) listImageSelected);
-    }
+
 
     private void onPhotosReturned(List<File> returnedPhotos) {
         listImageSelected.addAll(returnedPhotos);
