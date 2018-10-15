@@ -22,7 +22,7 @@ public class FireBaseMsgService extends FirebaseMessagingService {
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "technoWeb")
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "SafeObject")
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle(remoteMessage.getNotification().getTitle())
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background))

@@ -25,7 +25,7 @@ public class Notification extends AsyncTask<Void,Void,Void> {
             conn.setDoOutput(true);
 
             conn.setRequestMethod("POST");
-            conn.setRequestProperty("Authorization","key="+AUTH_KEY_FCM);
+            conn.setRequestProperty("Authorization","Bearer " + AUTH_KEY_FCM);
             conn.setRequestProperty("Content-Type", "application/json");
 
             JSONObject json = new JSONObject();
