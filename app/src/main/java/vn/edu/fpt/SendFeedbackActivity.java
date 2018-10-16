@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import java.io.File;
 import java.io.Serializable;
 import java.sql.Array;
@@ -59,6 +61,8 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_feedback);
+//FCM
+        FirebaseMessaging.getInstance().subscribeToTopic("foo-bar");
 
 
 

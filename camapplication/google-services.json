@@ -8,6 +8,37 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:126101728282:android:c2963293a53f310c",
+        "android_client_info": {
+          "package_name": "com.example.camapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126101728282-nl7v6g4cspng91tccur0rg47c8n02al8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4Xe26c6ceLplY1mLAq-pHEM6ZKhb0BlY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:126101728282:android:7d25703ee7c807ac",
         "android_client_info": {
           "package_name": "vn.edu.fpt.client"

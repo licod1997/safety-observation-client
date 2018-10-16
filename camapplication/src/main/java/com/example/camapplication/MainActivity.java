@@ -181,7 +181,9 @@ public class MainActivity extends AppCompatActivity{
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Notification().execute();
+                Bitmap bitmapImage = textureView.getBitmap(previewSize.getHeight(),previewSize.getWidth());
+                StorageImage.uploadImage(bitmapImage);
+//                new Notification().execute();
             }
         });
 
@@ -470,7 +472,7 @@ public class MainActivity extends AppCompatActivity{
             return;
         }
         Bitmap bitmapImage = textureView.getBitmap(previewSize.getHeight(),previewSize.getWidth());
-        Log.e("AnhNTT",getBitMap(bitmapImage));
+//        Log.e("AnhNTT",getBitMap(bitmapImage));
         SendImageAPI service = RetrofitClientInstance.getRetrofitInstanc().create( SendImageAPI.class );
 
         Call<String> callUpload = service.uploadImage(getBitMap(bitmapImage));

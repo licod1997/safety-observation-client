@@ -10,10 +10,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Notification extends AsyncTask<Void,Void,Void> {
-    public final static String AUTH_KEY_FCM = "AIzaSyDjOQOi3zd7zB4qZGbYcQ48QNjMTiRd3kA";
-    public final static String API_URL_FCM = "https://fcm.googleapis.com/fcm/send";
-    public final static String topic = "evuAp7rzwek:APA91bEJh_25jzaq0Vr1Y3mgm-FJXGvo06ZUsVwFdboUHbz76oozW21GxXFGU-3wFtGB5JUino4t8oEXEctkmzcFXpJdt0hCUQyznzba2P9wNk4PA_pko6zSKmYFWABpt_fCd6FUmNGU";
-
+    public final static String AUTH_KEY_FCM = "AIzaSyAD2VmSKTqrJDNQdQXfDo4TmpzNyBAoxfo";
+    public final static String API_URL_FCM = "https://fcm.googleapis.com/v1/projects/safetyobservationsclient-2ef53/messages:send";
+    public final static String topic = "SafeObject";
     @Override
     protected Void doInBackground(Void... voids) {
         try{
@@ -30,12 +29,13 @@ public class Notification extends AsyncTask<Void,Void,Void> {
 
             JSONObject json = new JSONObject();
 
-            json.put("to", topic);
+            json.put("topic", topic);
 
 
             JSONObject info = new JSONObject();
-            info.put("title", "TechnoWeb");   // Notification title
-            info.put("body", "Hello Test notification"); // Notification body
+            info.put("title", "SafeObject");   // Notification title
+            info.put("body", "Có vật nguy hiểm");// Notification body
+//            info.put("image","");
 
             json.put("notification", info);
 
