@@ -115,7 +115,7 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
         EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
             @Override
             public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
-                Toast.makeText(SendFeedbackActivity.this,"Something went wrong, select again plesase",Toast.LENGTH_LONG).show();
+                Toast.makeText(SendFeedbackActivity.this,"Đã có lỗi xảy ra, xin thử lại!",Toast.LENGTH_LONG).show();
                 System.out.println("=======ERROR while picking photo=======");
                 e.printStackTrace();
             }
@@ -132,7 +132,10 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
 
     private void sendFeedback(){
         if(listImageSelected.size()<4){
-            Toast.makeText(SendFeedbackActivity.this,"Chọn ít nhất 4 hình",Toast.LENGTH_LONG).show();
+            Toast.makeText(SendFeedbackActivity.this,"Chọn ít nhất 4 hình về vật thể!",Toast.LENGTH_LONG).show();
+            return;
+        }else if(edtFeedbackDescription.getText().toString().trim().isEmpty()){
+            Toast.makeText(SendFeedbackActivity.this,"Mô tả chi tiết không được để trống!",Toast.LENGTH_LONG).show();
             return;
         }
         pd = new ProgressDialog(SendFeedbackActivity.this); // API <26
@@ -169,7 +172,7 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
                 }
                 pd.dismiss();
 
-                Toast.makeText(SendFeedbackActivity.this,"Send feedback successfully",Toast.LENGTH_LONG).show();
+                Toast.makeText(SendFeedbackActivity.this,"Gửi phản hồi thành công",Toast.LENGTH_LONG).show();
                 //Clear
                 lnLayoutImageView.setVisibility(View.GONE);
                 edtFeedbackDescription.setText("");
@@ -185,7 +188,7 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
             public void onFailure(Call<String> call, Throwable t) {
                 pd.dismiss();
 
-                Toast.makeText(SendFeedbackActivity.this,"Send Failed",Toast.LENGTH_LONG).show();
+                Toast.makeText(SendFeedbackActivity.this,"Gửi không thành công",Toast.LENGTH_LONG).show();
 
                 Log.e("main", "on error is called and the error is  ----> " + t.getMessage());
 
@@ -212,7 +215,7 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                System.out.println("Upload file is fialed");
+                System.out.println("Upload file is failed");
                 Log.e("ERROR: ", t.getMessage());
             }
         });

@@ -48,7 +48,13 @@
                          android:id="@+id/imgButtonCamera"
                          android:src="@drawable/camera"
                          android:scaleType="fitCenter"/>
+
         </LinearLayout>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="(* Chọn hoặc chụp ít nhất 4 hình về vật thể)"
+        />
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -65,7 +71,7 @@
                 android:id="@+id/btnSendFeedback"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gữi phản hồi"
+                android:text="Gửi phản hồi"
                 style="@style/Widget.AppCompat.Button.Colored"/>
 
     </LinearLayout>
