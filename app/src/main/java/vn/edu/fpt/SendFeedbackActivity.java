@@ -159,36 +159,41 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
         Call<String> call = serviceFeedbackAPI.sendFeedback(feedbackDTO);
 
 ////        Log.wtf("URL Called", .request().url() + "" );
-
-
-
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
+                switch (response.body()){
+                    case "empty_list_image":
+                        pd.dismiss();
+                        Toast.makeText(SendFeedbackActivity.this,"Đã có lỗi xảy ra. Danh sách hình RỖNG",Toast.LENGTH_LONG).show();
+                        break;
+                    case "exist_image":
+                        pd.dismiss();
+                        Toast.makeText(SendFeedbackActivity.this,"Đã có lỗi xảy ra. Hình đã có trên hệ thống",Toast.LENGTH_LONG).show();
+                        break;
+                    case "send_feedback_successfully":
+                        //upload file
+                        for (File img: listImageSelected) {
+                            uploadImage(img);
+                        }
+                        pd.dismiss();
+                        Toast.makeText(SendFeedbackActivity.this,"Gửi phản hồi thành công",Toast.LENGTH_LONG).show();
+                        //Clear
+                        lnLayoutImageView.setVisibility(View.GONE);
+                        edtFeedbackDescription.setText("");
+                        listImageSelected.clear();
+                        onPhotosReturned(listImageSelected);
 
-                //upload file
-                for (File img: listImageSelected) {
-                    uploadImage(img);
+                        finish();
+                        break;
                 }
-                pd.dismiss();
-
-                Toast.makeText(SendFeedbackActivity.this,"Gửi phản hồi thành công",Toast.LENGTH_LONG).show();
-                //Clear
-                lnLayoutImageView.setVisibility(View.GONE);
-                edtFeedbackDescription.setText("");
-                listImageSelected.clear();
-                onPhotosReturned(listImageSelected);
-
-                finish();
-
-
 
             }
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 pd.dismiss();
 
-                Toast.makeText(SendFeedbackActivity.this,"Gửi không thành công",Toast.LENGTH_LONG).show();
+                Toast.makeText(SendFeedbackActivity.this,"Đã có lỗi xảy ra.",Toast.LENGTH_LONG).show();
 
                 Log.e("main", "on error is called and the error is  ----> " + t.getMessage());
 
@@ -203,6 +208,7 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
         RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileImage);
 
         MultipartBody.Part body = MultipartBody.Part.createFormData("img", fileImage.getName(), requestBody);
+
         UploadImageAPI serviceUploadImgAPI = RetrofitInstance.getRetrofitInstance().create(UploadImageAPI.class);
 
         Call<String> callUpload = serviceUploadImgAPI.uploadImage(body);
@@ -210,7 +216,10 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
         callUpload.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
+
                 System.out.println("Upload file is successfully");
+                System.out.println(response.body());
+
             }
 
             @Override

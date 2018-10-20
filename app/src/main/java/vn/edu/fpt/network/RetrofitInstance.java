@@ -29,7 +29,7 @@ public class RetrofitInstance {
 
         if (retrofit == null) {
             retrofit = new retrofit2.Retrofit.Builder()
-                    .baseUrl(COFFEE_HOUSE_URL)
+                    .baseUrl(BASE_HOME_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
