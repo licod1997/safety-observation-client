@@ -4,33 +4,48 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
               tools:context="vn.edu.fpt.SendFeedbackActivity"
-              android:weightSum="3">
-
-    <LinearLayout android:id="@+id/lnlayoutImageView"
+              android:weightSum="100">
+    <LinearLayout
+            android:id="@+id/lnlayoutImageView"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:layout_weight="60"
             android:orientation="vertical"
+
 
             android:padding="10dp" android:visibility="visible">
 
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="@android:color/background_light"
+                android:layout_height="260dp"
                 android:gravity="center"
-                android:padding="10dp" android:visibility="visible"/>
+                android:padding="10dp" android:visibility="gone"
+                android:background="@color/cardview_light_background"
+        />
+        <ImageView
+                android:id="@+id/image_lorem"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:src="@drawable/no_image_icon"
+                android:layout_gravity="center"
+
+        />
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="(* Chọn hoặc chụp ít nhất 4 hình về vật thể)"
+                android:gravity="center"
+        />
     </LinearLayout>
 
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="40"
             android:orientation="vertical"
             android:padding="10dp">
         <LinearLayout
@@ -50,31 +65,28 @@
                          android:scaleType="fitCenter"/>
 
         </LinearLayout>
+
         <TextView
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="(* Chọn hoặc chụp ít nhất 4 hình về vật thể)"
+                android:text="Mô tả chi tiết:"
+                android:textSize="20dp"
+                android:textColor="#000000"
         />
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Mô tả chi tiết"
-                android:textSize="20dp"/>
 
         <EditText
+
                 android:id="@+id/edtFeedbackDescription"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:hint="Nhận xét của bạn"/>
+                android:layout_height="70dp"
+                android:hint="Nhận xét của bạn"
 
-        <Button
-                android:id="@+id/btnSendFeedback"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Gửi phản hồi"
-                style="@style/Widget.AppCompat.Button.Colored"/>
-
+        />
     </LinearLayout>
 
 
 </LinearLayout>
+
+
+

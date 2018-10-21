@@ -3,11 +3,14 @@ package vn.edu.fpt;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 
@@ -39,13 +42,13 @@ import static android.widget.Toast.LENGTH_SHORT;
 public class SendFeedbackActivity extends AppCompatActivity implements View.OnClickListener{
 
 
-    private Button btnSendFeedback,btnChooseImage ,btnCamera;
     private ImageButton imgButtonChoosePhoto, imgButtonCamera;
     private LinearLayout lnLayoutImageView;
 
     private EditText edtFeedbackDescription;
     private ImagesAdapter imagesAdapter;
     protected RecyclerView recyclerView;
+    private ImageView imageLorem;
 
 
     ProgressDialog pd ;
@@ -64,10 +67,9 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
         imgButtonCamera = findViewById(R.id.imgButtonCamera);
         imgButtonChoosePhoto = findViewById(R.id.imgButtonChooseImage);
         lnLayoutImageView = findViewById(R.id.lnlayoutImageView) ;
-        lnLayoutImageView.setVisibility(View.GONE);
-        edtFeedbackDescription = findViewById(R.id.edtFeedbackDescription);
-        btnSendFeedback = findViewById(R.id.btnSendFeedback);
+          edtFeedbackDescription = findViewById(R.id.edtFeedbackDescription);
         recyclerView = findViewById(R.id.recycler_view);
+        imageLorem = findViewById(R.id.image_lorem);
 
 
 
@@ -79,7 +81,8 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
 
        imgButtonChoosePhoto.setOnClickListener(this);
        imgButtonCamera.setOnClickListener(this);
-        btnSendFeedback.setOnClickListener(this);
+
+        toolbar();
 
 
     }
@@ -92,16 +95,14 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
             case R.id.imgButtonChooseImage:
                 listImageSelected.clear();
                 EasyImage.openGallery(SendFeedbackActivity.this, 0);
-                lnLayoutImageView.setVisibility(View.VISIBLE);
-
+                imageLorem.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
                 break;
-            case R.id.btnSendFeedback:
-                sendFeedback();
 
-                break;
             case R.id.imgButtonCamera:
                 EasyImage.openCamera(SendFeedbackActivity.this,0);
-                lnLayoutImageView.setVisibility(View.VISIBLE);
+                imageLorem.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -123,8 +124,6 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onImagesPicked(List<File> imagesFiles, EasyImage.ImageSource source, int type) {
                 onPhotosReturned(imagesFiles);
-
-
             }
         });
     }
@@ -237,5 +236,49 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
         listImageSelected.addAll(returnedPhotos);
         imagesAdapter.notifyDataSetChanged();
         recyclerView.scrollToPosition(listImageSelected.size() - 1);
+    }
+
+    /*- Toolbar ------------------------------------------------------------------------- */
+    public void toolbar(){
+        /* Toolbar */
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getResources().getString(R.string.feedback));
+
+        // Back icon
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        // Show
+        actionBar.show();
+
+    }
+
+
+    // Load the menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    /*- On Options Item Selected --------------------------------------------------------- */
+    // One of the toolbar icons was clicked
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here.
+        int id = item.getItemId();
+
+        //
+        if (id == R.id.navigationSendFeedback) {
+           sendFeedback();
+        }
+        else{
+            // Back icon clicked
+            Intent i = new Intent(SendFeedbackActivity.this, MainActivity.class);
+            startActivity(i);
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
