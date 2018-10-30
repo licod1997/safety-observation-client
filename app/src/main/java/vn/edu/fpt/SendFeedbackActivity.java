@@ -2,11 +2,10 @@ package vn.edu.fpt;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,12 +48,12 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
 
     private final int TAKE_IMAGE = 1;
     private ImageButton imgButtonChoosePhoto, imgButtonCamera;
-    private LinearLayout lnLayoutImageView;
+    private LinearLayout lnLayoutImageView,layoutVideoTutorial ;
 
     private EditText edtFeedbackDescription;
     private ImagesAdapter imagesAdapter;
     protected RecyclerView recyclerView;
-    private ImageView imageLorem;
+    private ImageView imageLorem, imageVideoTutorial;
 
 
     ProgressDialog pd;
@@ -74,6 +73,8 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
         edtFeedbackDescription = findViewById(R.id.edtFeedbackDescription);
         recyclerView = findViewById(R.id.recycler_view);
         imageLorem = findViewById(R.id.image_lorem);
+        layoutVideoTutorial =findViewById(R.id.layout_video_tutorial);
+
 
 
         imagesAdapter = new ImagesAdapter(SendFeedbackActivity.this, listImageSelected);
@@ -81,8 +82,8 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(imagesAdapter);
 
-        imgButtonChoosePhoto.setOnClickListener(this);
-        imgButtonCamera.setOnClickListener(this);
+       imgButtonChoosePhoto.setOnClickListener(this);
+       imgButtonCamera.setOnClickListener(this);
 
         toolbar();
 
@@ -110,6 +111,9 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
 
                 imageLorem.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
+                break;
+            case R.id.layout_video_tutorial:
+                watchYoutubeVideo("E06kgYBftak");
                 break;
         }
     }
@@ -298,5 +302,16 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private   void watchYoutubeVideo(String id) {
+        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
+        Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("http://www.youtube.com/watch?v=" + id));
+        try {
+            startActivity(appIntent);
+        } catch (ActivityNotFoundException ex) {
+            startActivity(webIntent);
+        }
     }
 }
