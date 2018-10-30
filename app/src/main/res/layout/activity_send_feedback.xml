@@ -27,8 +27,8 @@
         />
         <ImageView
                 android:id="@+id/image_lorem"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
+                android:layout_width="260dp"
+                android:layout_height="260dp"
                 android:src="@drawable/no_image_icon"
                 android:layout_gravity="center"
 
@@ -39,8 +39,27 @@
                 android:text="(* Chọn hoặc chụp ít nhất 4 hình về vật thể)"
                 android:gravity="center"
         />
-    </LinearLayout>
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:id="@+id/layout_video_tutorial">
+            <ImageView android:layout_width="30dp" android:layout_height="30dp"
+                       android:src="@drawable/youtube_icon" android:layout_gravity="center"
 
+            />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Video hướng dẫn chụp hình"
+                    android:gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#0061ff"
+            />
+
+        </LinearLayout>
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -86,6 +105,7 @@
     </LinearLayout>
 
 
+</LinearLayout>
 </LinearLayout>
 
 
