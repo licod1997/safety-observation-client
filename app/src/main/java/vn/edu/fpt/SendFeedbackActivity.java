@@ -1,12 +1,17 @@
 package vn.edu.fpt;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -46,8 +51,9 @@ import vn.edu.fpt.network.RetrofitInstance;
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class SendFeedbackActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final int CAMERA_REQUEST_CODE = 3110;
+    private static final int TAKE_IMAGE = 1;
 
-    private final int TAKE_IMAGE = 1;
     private ImageButton imgButtonChoosePhoto, imgButtonCamera;
     private LinearLayout lnLayoutImageView,layoutVideoTutorial ;
 
@@ -91,6 +97,7 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClick(View view) {
         EasyImage.configuration(getApplication()).setAllowMultiplePickInGallery(true);
@@ -106,12 +113,18 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
                 break;
 
             case R.id.imgButtonCamera:
-                Intent intent = new Intent(SendFeedbackActivity.this, CameraFeedbackActivity.class);
+                if (checkSelfPermission(Manifest.permission.CAMERA)
+                        == PackageManager.PERMISSION_GRANTED) {
 
-                startActivityForResult(intent, TAKE_IMAGE);
+                    Intent intent = new Intent(SendFeedbackActivity.this, CameraFeedbackActivity.class);
+                    startActivityForResult(intent, TAKE_IMAGE);
+                    imageLorem.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
 
-                imageLorem.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
+                }else{
+                    requestPermissions(new String[]{Manifest.permission.CAMERA},
+                            CAMERA_REQUEST_CODE);
+                }
                 break;
             case R.id.layout_video_tutorial:
                 watchYoutubeVideo("E06kgYBftak");
@@ -315,4 +328,25 @@ public class SendFeedbackActivity extends AppCompatActivity implements View.OnCl
             startActivity(webIntent);
         }
     }
+
+
+    @Override
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == CAMERA_REQUEST_CODE) {
+
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+
+            } else {
+
+                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+
+            }
+
+        }}
 }
